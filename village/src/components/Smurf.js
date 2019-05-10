@@ -1,20 +1,30 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+
+import { SmurfCard, Button, ButtonContainer } from './styles';
 
 const Smurf = props => {
+
+  const goBack = () => {
+    props.history.goBack()
+  }
+
+  const clickHandler = event => {
+    event.preventDefault();
+    props.deleteSmurf(props.smurf.id);
+  }
   return (
-    <div className="Smurf">
-      <h3>{props.name}</h3>
-      <strong>{props.height} tall</strong>
-      <p>{props.age} smurf years old</p>
-    </div>
+    <SmurfCard>
+      <h3>{props.smurf.name}</h3>
+      <strong>{props.smurf.height} tall</strong>
+      <p>{props.smurf.age} smurf years old</p>
+      <ButtonContainer>
+        <Button onClick={clickHandler}>Delete</Button>
+        <Link to='/friend/update-form' ><Button>Update</Button></Link>
+      </ButtonContainer>
+      <h4 onClick={this.goBack}>Go Back</h4>
+    </SmurfCard>
   );
 };
 
-Smurf.defaultProps = {
-  name: '',
-  height: '',
-  age: ''
-};
-
 export default Smurf;
-

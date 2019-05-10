@@ -1,26 +1,32 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import Smurf from './Smurf';
+import { SmurfsContainer, SmurfContainer, SmurfCard } from './styles'
 
 class Smurfs extends Component {
+
+  clickHandler = smurf => {
+    console.log(smurf)
+    this.props.selectedSmurf(smurf);
+  }
+
   render() {
     return (
-      <div className="Smurfs">
+      <SmurfsContainer>
         <h1>Smurf Village</h1>
-        <ul>
+        <SmurfContainer>
           {this.props.smurfs.map(smurf => {
             return (
-              <Smurf
-                name={smurf.name}
-                id={smurf.id}
-                age={smurf.age}
-                height={smurf.height}
-                key={smurf.id}
-              />
+              <SmurfCard key={smurf.id}>
+                <Link to={`/smurf/${smurf.id}`}><h3 onClick={() => this.clickHandler(smurf)}>{smurf.name}</h3></Link>
+                <strong>{smurf.height} tall</strong>
+                <p>{smurf.age} smurf years old</p>
+              </SmurfCard>
             );
           })}
-        </ul>
-      </div>
+        </SmurfContainer>
+      </SmurfsContainer>
     );
   }
 }

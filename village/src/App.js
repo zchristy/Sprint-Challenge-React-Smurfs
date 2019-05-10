@@ -1,17 +1,31 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Route, NavLink } from 'react-router-dom';
+import { Route, NavLink, withRouter } from 'react-router-dom';
 
-import './App.css';
+import { AppContainer, NavContainer, Nav } from './components/styles'
 import SmurfForm from './components/SmurfForm';
 import Smurfs from './components/Smurfs';
+import Smurf from './components/Smurf';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       smurfs: [],
+      clickedSmurf: {}
     };
+  }
+
+  selectedSmurf = clickedSmurfData => {
+    const clickedSmurf = {
+      id: clickedSmurfData.id,
+      name: clickedSmurfData.name,
+      age: clickedSmurfData.age,
+      height: clickedSmurfData.height
+    }
+    this.setState({
+      clickedSmurf: clickedSmurf
+    })
   }
 
   addSmurf = smurf => {
@@ -26,6 +40,22 @@ class App extends Component {
     .catch(err => {
       console.log(err);
     })
+  }
+
+  deleteSmurf = smurf => {
+    console.log(smurf)
+
+    axios.delete(`http://localhost:3333/smurfs/${smurf}`)
+    .then(res => {
+      this.setState({
+        friends: res.data
+      })
+      this.props.history.push('/');
+    })
+    .catch(error => {
+      console.log(error);
+    });
+
   }
 
   componentDidMount() {
@@ -44,17 +74,33 @@ class App extends Component {
   // You'll need to make sure you have the right properties on state and pass them down to props.
   render() {
     return (
-      <div className="App">
-        <nav>
-          <NavLink to='/'>Home</NavLink>
-          <NavLink to='/form'>Add Smurf</NavLink>
-        </nav>
+      <AppContainer>
+        <NavContainer>
+          <Nav>
+            <NavLink to='/'><h4>Home</h4></NavLink>
+            <NavLink to='/form'><h4>Add Smurf</h4></NavLink>
+          </Nav>
+        </NavContainer>
 
         <Route
           exact
           path='/'
           render= {(props) => (
-            <Smurfs {...props} smurfs={this.state.smurfs} />
+            <Smurfs {...props}
+              smurfs={this.state.smurfs}
+              smurf={this.state.clickedSmurf}
+              selectedSmurf={this.selectedSmurf} />
+          )}
+        />
+
+        <Route
+          exact
+          path='/smurf/:id'
+          render= {(props) => (
+            <Smurf {...props}
+              smurf={this.state.clickedSmurf}
+              selectedSmurf={this.selectedSmurf}
+              deleteSmurf={this.deleteSmurf}/>
           )}
         />
           <Route
@@ -65,9 +111,9 @@ class App extends Component {
             )}
           />
 
-      </div>
+      </AppContainer>
     );
   }
 }
-
+const AppWithRouter = withRouter(App);
 export default App;

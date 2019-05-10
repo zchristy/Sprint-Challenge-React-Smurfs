@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { FormContainer, Form, Button } from './styles'
 
 class SmurfForm extends Component {
   constructor(props) {
@@ -25,10 +26,14 @@ class SmurfForm extends Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  goBack = () => {
+    this.props.history.goBack()
+  }
+
   render() {
     return (
-      <div className="SmurfForm">
-        <form onSubmit={this.addSmurf}>
+      <FormContainer>
+        <Form onSubmit={this.addSmurf}>
           <input
             onChange={this.handleInputChange}
             placeholder="name"
@@ -47,9 +52,11 @@ class SmurfForm extends Component {
             value={this.state.height}
             name="height"
           />
-          <button type="submit">Add to the village</button>
-        </form>
-      </div>
+          <Button type="submit">Add to the village</Button>
+        </Form>
+        <h4 onClick={this.goBack}>Go Back</h4>
+      </FormContainer>
+
     );
   }
 }
