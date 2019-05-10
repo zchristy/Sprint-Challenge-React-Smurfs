@@ -148,3 +148,14 @@ export const Form = styled.form`
      outline: none;
    }
 `;
+
+// ==== Update Form ====
+
+export const UpdateFormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  width: 30%;
+  margin: 0 auto;
+`;

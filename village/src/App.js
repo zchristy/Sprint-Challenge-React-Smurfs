@@ -4,6 +4,7 @@ import { Route, NavLink, withRouter } from 'react-router-dom';
 
 import { AppContainer, NavContainer, Nav } from './components/styles'
 import SmurfForm from './components/SmurfForm';
+import UpdateForm from './components/UpdateForm';
 import Smurfs from './components/Smurfs';
 import Smurf from './components/Smurf';
 
@@ -12,7 +13,12 @@ class App extends Component {
     super(props);
     this.state = {
       smurfs: [],
-      clickedSmurf: {}
+      clickedSmurf: {
+        id: '',
+        name: '',
+        age: '',
+        height: ''
+      }
     };
   }
 
@@ -40,6 +46,21 @@ class App extends Component {
     .catch(err => {
       console.log(err);
     })
+  }
+
+  updateSmurf = smurf => {
+
+    axios.put(`http://localhost:3333/smurfs/${smurf.id}`, smurf)
+    .then(res => {
+      this.setState({
+        smurfs: res.data
+      })
+      this.props.history.push('/');
+    })
+    .catch(err => {
+      console.log(err);
+    })
+
   }
 
   deleteSmurf = smurf => {
@@ -101,7 +122,7 @@ class App extends Component {
               smurf={this.state.clickedSmurf}
               selectedSmurf={this.selectedSmurf}
               deleteSmurf={this.deleteSmurf}/>
-          )}
+            )}
         />
           <Route
             exact
@@ -111,9 +132,17 @@ class App extends Component {
             )}
           />
 
+          <Route
+            exact
+            path='/update-form'
+            render= {(props) => (
+              <UpdateForm {...props} smurf={this.state.clickedSmurf} updateSmurf={this.updateSmurf} />
+            )}
+          />
+
       </AppContainer>
     );
   }
 }
 const AppWithRouter = withRouter(App);
-export default App;
+export default AppWithRouter;

@@ -20,9 +20,9 @@ const Smurf = props => {
       <p>{props.smurf.age} smurf years old</p>
       <ButtonContainer>
         <Button onClick={clickHandler}>Delete</Button>
-        <Link to='/friend/update-form' ><Button>Update</Button></Link>
+        <Link to='/update-form'><Button>Update</Button></Link>
       </ButtonContainer>
-      <h4 onClick={this.goBack}>Go Back</h4>
+      <h4 onClick={goBack}>Go Back</h4>
     </SmurfCard>
   );
 };
