@@ -42,6 +42,7 @@ class App extends Component {
       this.setState({
         smurfs: res.data
       })
+      this.props.history.push('/');
     })
     .catch(err => {
       console.log(err);
@@ -69,7 +70,7 @@ class App extends Component {
     axios.delete(`http://localhost:3333/smurfs/${smurf}`)
     .then(res => {
       this.setState({
-        friends: res.data
+        smurfs: res.data
       })
       this.props.history.push('/');
     })

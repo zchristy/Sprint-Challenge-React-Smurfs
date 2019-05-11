@@ -42,7 +42,6 @@ class UpdateForm extends Component {
       smurf: this.props.smurf
     })
   }
-
   render() {
     return (
       <UpdateFormContainer>
